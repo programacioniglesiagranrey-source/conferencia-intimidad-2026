@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Registro Completado - CONFERENCIA INTIMIDAD 2026</title>
     <meta name="description" content="Finaliza tu registro para la CONFERENCIA INTIMIDAD 2026." />
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,11 +21,10 @@
         }
 
         :root {
-            --bg: #0f0b1a;
-            /* Darker purple base */
-            --card: rgba(25, 20, 35, 0.7);
+            --bg: #1a162d;
+            /* Lighter purple base */
+            --card: rgba(30, 25, 45, 0.7);
             --primary: #a855f7;
-            /* Lighter violet */
             --primary-glow: rgba(168, 85, 247, 0.4);
             --accent: #FFD700;
             --accent-glow: rgba(255, 215, 0, 0.2);
@@ -42,6 +41,25 @@
             --radius-sm: 16px;
             --font-sans: 'Inter', system-ui, sans-serif;
             --font-heading: 'Outfit', sans-serif;
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 12px;
+            }
+
+            .card {
+                padding: 32px 20px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .btn-mega {
+                font-size: 16px !important;
+                padding: 18px 16px !important;
+            }
         }
 
         body {
@@ -81,9 +99,9 @@
             height: 140%;
             top: -20%;
             left: -20%;
-            background: radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.25) 0%, transparent 50%),
-                radial-gradient(circle at 20% 20%, rgba(168, 85, 247, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 80% 80%, rgba(255, 215, 0, 0.1) 0%, transparent 40%);
+            background: radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.4) 0%, transparent 65%),
+                radial-gradient(circle at 20% 20%, rgba(168, 85, 247, 0.25) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 215, 0, 0.2) 0%, transparent 45%);
             filter: blur(60px);
             animation: drift 20s infinite alternate ease-in-out;
             z-index: 0;
@@ -413,10 +431,10 @@
         /* WhatsApp Floating Button */
         .whatsapp-float {
             position: fixed;
-            bottom: 24px;
-            right: 24px;
-            width: 56px;
-            height: 56px;
+            bottom: 16px;
+            right: 16px;
+            width: 50px;
+            height: 50px;
             background-color: #25d366;
             color: #fff;
             border-radius: 50px;
