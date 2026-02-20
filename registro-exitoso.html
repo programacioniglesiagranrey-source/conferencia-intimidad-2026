@@ -21,23 +21,27 @@
         }
 
         :root {
-            --bg: #09090b;
-            --card: rgba(24, 24, 27, 0.5);
-            --primary: #7c3aed;
-            --primary-glow: rgba(124, 58, 237, 0.25);
-            --text: #fafafa;
-            --muted: #a1a1aa;
-            --border: rgba(255, 255, 255, 0.1);
-            --green: #22c55e;
-            --green-bg: rgba(34, 197, 94, 0.12);
-            --green-border: rgba(34, 197, 94, 0.3);
-            --yellow: #eab308;
-            --yellow-bg: rgba(234, 179, 8, 0.12);
-            --yellow-border: rgba(234, 179, 8, 0.3);
-            --radius: 16px;
-            --radius-sm: 12px;
+            --bg: #0f0b1a;
+            /* Darker purple base */
+            --card: rgba(25, 20, 35, 0.7);
+            --primary: #a855f7;
+            /* Lighter violet */
+            --primary-glow: rgba(168, 85, 247, 0.4);
+            --accent: #FFD700;
+            --accent-glow: rgba(255, 215, 0, 0.2);
+            --text: #ffffff;
+            --muted: #cbd5e1;
+            --border: rgba(168, 85, 247, 0.3);
+            --green: #10b981;
+            --green-bg: rgba(16, 185, 129, 0.1);
+            --green-border: rgba(16, 185, 129, 0.3);
+            --yellow: #f59e0b;
+            --yellow-bg: rgba(245, 158, 11, 0.1);
+            --yellow-border: rgba(245, 158, 11, 0.3);
+            --radius: 24px;
+            --radius-sm: 16px;
             --font-sans: 'Inter', system-ui, sans-serif;
-            --font-heading: 'Outfit', 'Inter', sans-serif;
+            --font-heading: 'Outfit', sans-serif;
         }
 
         body {
@@ -57,9 +61,42 @@
             inset: 0;
             z-index: 0;
             pointer-events: none;
-            opacity: 0.12;
-            background: radial-gradient(ellipse at 30% 20%, rgba(124, 58, 237, 0.4) 0%, transparent 60%),
-                radial-gradient(ellipse at 70% 80%, rgba(59, 130, 246, 0.3) 0%, transparent 60%);
+            background: var(--bg);
+            overflow: hidden;
+        }
+
+        .bg-decoration::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            opacity: 0.08;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            z-index: 1;
+        }
+
+        .bg-gradient {
+            position: absolute;
+            width: 140%;
+            height: 140%;
+            top: -20%;
+            left: -20%;
+            background: radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.25) 0%, transparent 50%),
+                radial-gradient(circle at 20% 20%, rgba(168, 85, 247, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(255, 215, 0, 0.1) 0%, transparent 40%);
+            filter: blur(60px);
+            animation: drift 20s infinite alternate ease-in-out;
+            z-index: 0;
+        }
+
+        @keyframes drift {
+            from {
+                transform: translate(-5%, -5%) scale(1);
+            }
+
+            to {
+                transform: translate(5%, 5%) scale(1.1);
+            }
         }
 
         .card {
@@ -343,7 +380,9 @@
 </head>
 
 <body>
-    <div class="bg-decoration"></div>
+    <div class="bg-decoration">
+        <div class="bg-gradient"></div>
+    </div>
 
     <div class="card">
         <!-- STATE 1: Has purchase data, waiting for user to finalize -->
@@ -401,7 +440,8 @@
                 Si ya pagaste, es posible que hayas borrado los datos del navegador.
                 Contactá al administrador por WhatsApp para completar tu registro manualmente.
                 <br><br>
-                <a href="https://wa.me/5493364333287" target="_blank">📱 Contactar por WhatsApp</a>
+                <a href="https://wa.link/qg4qq5" target="_blank" style="color: var(--accent); font-weight: 700;">📱
+                    Contactar por WhatsApp</a>
             </p>
             <button class="btn btn-outline" style="margin-top:24px;" onclick="goHome()">
                 🏠 Ir a Comprar Entradas
@@ -416,28 +456,25 @@
         // ⚠️ CONFIGURACIÓN: PEGAR ACÁ TU URL DE GOOGLE APPS SCRIPT
         // =============================================
         // Después de crear el Apps Script en tu Google Sheet, pegá la URL acá:
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzeJPil86CWKFdUVGwowV5jW2UX_LvjNlNlccPhJ9sJDYAy-PnjW63pQwu17KbkPifDCQ/exec";
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyrIBAuAe5n8-ksLaKZGs3d14LdEwjql_X4alKmQ8Dk2mTMVv9swp_adSZUQMs0XPKPPA/exec";
         // Ejemplo: "https://script.google.com/macros/s/AKfycb.../exec"
         // =============================================
 
         // URL de la página de compra (cambiar según donde la hosties)
-        const PURCHASE_PAGE_URL = "pagina-compra.html";
+        const PURCHASE_PAGE_URL = "index.html";
 
         // ===== LOAD DATA =====
         let purchaseData = null;
 
         function init() {
             try {
-                const raw = localStorage.getItem("ticketflow_purchase");
-                if (raw) {
-                    purchaseData = JSON.parse(raw);
-                    showState("register");
-                    renderSummary();
-                } else {
-                    showState("nodata");
+                const stored = localStorage.getItem("ticketflow_purchase");
+                if (stored) {
+                    purchaseData = JSON.parse(stored);
+                    renderDetails();
                 }
             } catch (e) {
-                showState("nodata");
+                console.error("Error cargando localStorage:", e);
             }
         }
 
@@ -450,7 +487,7 @@
             if (!purchaseData) return;
             const p = purchaseData;
             let namesHtml = p.names.map((n, i) =>
-                `<div class="name-item"><strong>${i + 1}.</strong> ${n}</div>`
+                `<div class="name-item"><strong>Nombre completo ${i + 1}:</strong> ${n}</div>`
             ).join("");
 
             document.getElementById("summaryBox").innerHTML = `
@@ -513,15 +550,22 @@
             try {
                 // Send to Google Sheets
                 if (GOOGLE_SCRIPT_URL && GOOGLE_SCRIPT_URL !== "PEGAR_TU_URL_AQUI") {
-                    await fetch(GOOGLE_SCRIPT_URL, {
+                    // Usamos text/plain para evitar problemas de CORS y preflight
+                    const response = await fetch(GOOGLE_SCRIPT_URL, {
                         method: "POST",
                         mode: "no-cors",
-                        headers: { "Content-Type": "application/json" },
+                        headers: { "Content-Type": "text/plain" },
                         body: JSON.stringify({ rows }),
                     });
+
+                    // En mode: no-cors no podemos ver el status, pero si la promesa no falla
+                    // es que al menos salió del navegador.
+                    console.log("Respuesta recibida (opaca):", response);
                 } else {
-                    console.warn("⚠️ Google Apps Script URL no configurada. Los datos se muestran en consola:");
-                    console.table(rows);
+                    console.error("⚠️ ERROR: No se detectó la URL del script. Revisá la línea 419 del código.");
+                    btn.disabled = false;
+                    btn.innerHTML = 'Finalizar Registro ✓';
+                    return;
                 }
 
                 // Clear localStorage
@@ -546,7 +590,7 @@
         }
 
         function goHome() {
-            window.location.href = PURCHASE_PAGE_URL;
+            window.location.href = "index.html";
         }
 
         // Init
