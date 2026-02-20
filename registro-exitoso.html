@@ -260,6 +260,43 @@
             cursor: not-allowed;
         }
 
+        .btn-mega {
+            background: #10b981;
+            /* Green for success/confirm */
+            padding: 24px 20px;
+            font-size: 20px;
+            line-height: 1.2;
+            text-transform: uppercase;
+            box-shadow: 0 0 30px rgba(16, 185, 129, 0.4);
+            animation: pulse 2s infinite ease-in-out;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            height: auto;
+            text-wrap: balance;
+        }
+
+        .btn-mega:hover {
+            background: #059669;
+            transform: scale(1.02);
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+            }
+
+            50% {
+                transform: scale(1.03);
+                box-shadow: 0 0 40px rgba(16, 185, 129, 0.6);
+            }
+
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+            }
+        }
+
         .btn-outline {
             background: transparent;
             color: var(--muted);
@@ -393,11 +430,15 @@
                 Si ya realizaste el pago en Mercado Pago, presioná el botón de abajo para finalizar tu registro.
             </p>
 
+            <button class="btn btn-mega" id="finalizeBtn" onclick="finalizeRegistration()">
+                CLICK ACÁ PARA CARGAR TUS DATOS DE MERCADO PAGO 👆
+            </button>
+
             <div class="summary-box" id="summaryBox">
                 <!-- Filled by JS -->
             </div>
 
-            <div class="steps-hint">
+            <div class="steps-hint" style="margin-bottom: 0;">
                 <div class="step-row done">
                     <div class="step-num">✓</div>
                     <span>Seleccionar entradas y datos</span>
@@ -411,10 +452,6 @@
                     <span><strong>Finalizar registro</strong> (este paso)</span>
                 </div>
             </div>
-
-            <button class="btn btn-primary" id="finalizeBtn" onclick="finalizeRegistration()">
-                Finalizar Registro ✓
-            </button>
         </div>
 
         <!-- STATE 2: Success -->
