@@ -1121,7 +1121,7 @@
       localStorage.setItem("ticketflow_purchase", JSON.stringify(purchaseData));
 
       // --- CAMBIO: Enviar datos a Google Sheets antes de redirigir ---
-      const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbySW5_e2xKB8Hx9F6t7WGQXEKa_Lqa5ToqzqgrqhFkzE-oYTrkyaKRBCv2VqbNt0UIwbA/exec"; // URL de Google Apps Script
+      const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyxDF6KlCJneM37Ov1k8XGQi93e0vPsX17RZ1r021qOxyo2z-FFrxqNYBKd0_T6y_Yh/exec"; // URL de Google Apps Script
       const dateStr = new Date().toLocaleDateString("es-AR") + " " + new Date().toLocaleTimeString("es-AR", { hour: '2-digit', minute: '2-digit' });
 
       const rows = purchaseData.names.map(name => ({
