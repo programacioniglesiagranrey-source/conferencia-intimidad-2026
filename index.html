@@ -888,8 +888,13 @@
           <form id="detailsForm" onsubmit="submitDetails(event)">
             <div class="form-section" style="margin-bottom:24px">
               <div class="form-group" style="margin-bottom:0">
-                <label class="form-label">📍 Ciudad o Iglesia Central</label>
+                <label class="form-label">📍 Nombre de la iglesia a la que asistes</label>
                 <input class="form-input" id="cityInput" placeholder="Ej: Buenos Aires - Iglesia Central" required
+                  style="border-radius: var(--radius-sm);" />
+              </div>
+              <div class="form-group" style="margin-bottom:0; margin-top:16px;">
+                <label class="form-label">👤 Nombre de tu pastor</label>
+                <input class="form-input" id="pastorInput" placeholder="Ej: Pastor Juan" required
                   style="border-radius: var(--radius-sm);" />
               </div>
             </div>
@@ -1046,6 +1051,7 @@
     function submitDetails(e) {
       e.preventDefault();
       const city = document.getElementById("cityInput").value.trim();
+      const pastor = document.getElementById("pastorInput").value.trim();
       const nameInputs = document.querySelectorAll(".name-input");
       const names = [];
       let valid = true;
@@ -1063,9 +1069,16 @@
         document.getElementById("cityInput").classList.remove("error");
       }
 
+      if (pastor.length < 2) {
+        document.getElementById("pastorInput").classList.add("error");
+        valid = false;
+      } else {
+        document.getElementById("pastorInput").classList.remove("error");
+      }
+
       if (!valid) return;
 
-      formData = { city, names };
+      formData = { city, pastor, names };
       goToStep("payment");
     }
 
@@ -1101,6 +1114,7 @@
         effectiveQty: getEffectiveQty(),
         totalPrice: getTotalPrice(),
         city: formData.city,
+        pastor: formData.pastor,
         names: formData.names,
         timestamp: new Date().toISOString(),
       };
@@ -1114,6 +1128,7 @@
         fecha: dateStr,
         nombre: name,
         ciudad: purchaseData.city,
+        pastor: purchaseData.pastor,
         tipo: purchaseData.typeLabel,
         cantidad: purchaseData.effectiveQty,
         monto: purchaseData.totalPrice,
